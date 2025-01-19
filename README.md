@@ -6,7 +6,7 @@ Welcome to our DATA 180 GitHub page! Here we will access the majority of course 
 |:------:|:----------------:|
 |Email | kesslerz@dickinson.edu|
 | Office | Althouse G19 |
-| Office Hours  | TF 3:00-4:30 p.m.|
+| Office Hours  | MH 12:30-2:30|
 
 | Contact | QRA: Malena Goldman|
 |:------:|:----------------:|
