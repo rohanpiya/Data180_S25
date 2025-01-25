@@ -1,0 +1,123 @@
+---
+title: "Intro to R and R Markdown Exercises"
+output: html_document
+---
+
+Welcome to R Markdown. Here you can combine coding and writing into the same file. Here you will code in R "chunks" which are smaller snippets of code. You can create your own snippets or use the ones I have built for you.
+
+In this course, homeworks will be completed in R Markdown files. This is distinct from an R Script. You can create a chunk by using the following command on Mac OS: Cmd+Option+I and on Windows: Ctrl+Alt+I.
+```{r}
+print('hello world')
+```
+Your R Chunk can be as long or as short as you may like. It can also be entirely empty.
+```{r}
+
+```
+
+# Basics of R Code
+## Assigning Variables in R
+We will often want to create a save different types of values in R. This goes beyond just including values in code, but saving them variables. We can do this in R in a few ways.
+```{r}
+2+3
+x=2
+y<-3
+x+y
+z = x + y
+z
+```
+Note how "environment window" we have two new additions, x and y. With these we can now call x and y in our other chunks. They are saved and can be referenced later or transformed. Even more relevant, we can define other variables as combinations of those variables.
+```{r}
+x+x+x+y
+z=x+x+x+y
+z
+```
+## Mathematical Operations in R
+All of your favorites are here, addition uses +, subtraction uses -, multiplication uses *, division uses /, exponents can be either a ^ or **.
+```{r}
+x + y
+x - y
+x * y
+x / y
+x ^ y
+x ** y
+```
+## Vectors and Loops in R
+The most common method of looping we will use in R is a "for" loop. This iterates either a number of times or through some iterable. An iterable is a collection of items where each item has an index which provides its position within the collection. To tell R we are creating a collection of values (a vector) we use the c() function. Try to create some vectors of your own!
+```{r}
+collection = c(1,2,3,4,5,6,7,8,9,10)
+collection2 = c('a','b','c','d','e','f')
+collection3 = c(1,'a',2,'b')
+```
+If you are creating a continuous range of numbers, you can use a colon to denote a starting and ending point.
+```{r}
+combo = 1:10
+```
+You can also reference specific elements in these vectors by using the index. An index in R starts at 1 (this is distinct from other language which start at 0).
+```{r}
+combo[1]
+collection[2]
+collection2[5]
+```
+
+To create a loop, you need a couple ingredients. First, you need the iterable. Second, you need the operation. The first ingredient can be supplied either a range of numbers (integers specifically) or the iterable mentioned earlier.
+```{r}
+for (i in 1:10){
+  print(i)
+}
+```
+Note you can change the starting point in the iterations by change the first number. For instance, if I only want to iterate from 5 to 10, swap the 1 in the above code to a 5.
+```{r}
+for (i in collection){
+  print(i)
+}
+```
+The second ingredient is the process which you are applying in your loop. This can really be anything you want but there are some common things we do use loops for in code.
+```{r}
+summation = 0
+for (i in collection){
+  summation = summation + i
+}
+summation
+product = 1
+for (i in combo){
+  product = product * i
+}
+product
+```
+## Creating your own Functions
+The final item we will discuss is the ability to create your own functions. R has a large number of built-in items, but sometimes this will not be good enough. Thankfully, R allows you to create your own functions which you can call and use to meet your specific needs. Defining a function in R needs three ingredients: the name of function, the argument(s) the function will take, and the actual method you are applying with those arguments. These come together to look like the following.
+```{r}
+custom_function=function(x){
+  print("My custom function multiplies things by 2")
+  y = x * 2
+  return (y)
+}
+
+custom_function(5)
+```
+You can make these things as complex or simple as you like. You can even reference a function inside itself!
+
+Suppose you want to find the sum of integers out to some value n. How could we do this?
+You could create a for loop.
+```{r}
+sum_func = function(n){
+  total = 0
+  for (i in 1:n){
+    total = total+i
+  }
+  return(total)
+}
+sum_func(5)
+
+```
+However, there is another way, recursion. The simplest way to think about recursion is solving your equation backwards. For a recursive solution, we know the end point and starting point. We exploit that fact to build our function.
+```{r}
+recursive_func = function(n){
+  if (n==0){
+    return(0)
+  }
+  return(n+recursive_func(n-1))
+}
+recursive_func(5)
+```
+
