@@ -1,0 +1,102 @@
+---
+title: "Base R Visualizations and Summary Statistics Exercises"
+author: "Your Name"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r}
+library(MASS)
+library(ggplot2)
+```
+
+# Exercise 1: Frequency Distribution with Categorical Variables
+
+## 1.1 Frequency Distribution for Iris Species
+
+```{r}
+
+```
+
+## 1.2 Frequency Distribution for Car Types (Cars93)
+
+```{r}
+
+```
+
+## 1.3 Frequency Distribution for Diamond Cuts
+
+```{r}
+
+```
+
+# Exercise 2: Relative Frequency Distributions
+
+## 2.1 Relative Frequency for Iris Species
+
+```{r}
+
+```
+
+## 2.2 Relative Frequency for Car Types
+
+```{r}
+
+```
+
+## 2.3 Relative Frequency for Diamond Cuts
+
+```{r}
+
+```
+
+# Exercise 3: Barplots
+
+## 3.1 Basic Barplot for Iris Species
+
+```{r}
+
+```
+
+## 3.2 Side-by-Side Barplot for Car Types in Cars93
+
+```{r}
+
+```
+
+# Exercise 4: Pie Charts
+
+## 4.1 Pie Chart for Diamond Cuts
+
+```{r}
+
+```
+
+# Exercise 5: Histograms
+
+## 5.1 Histogram for Iris Sepal Length
+
+```{r}
+
+```
+
+# Exercise 6: Calculating Mean, Median, and Mode
+
+## 6.1 Mean and Median
+
+```{r}
+
+```
+# Abstract Questions
+
+Not all data questions will be so straight forward as the above. Sometimes you will need to know some core data science concepts and use your methods to explore and tease out that information. Let's try a few problems like this now.
+```{r}
+data(txhousing)
+?txhousing
+```
+
+Now, you work for a group analyzing housing sales in Texas. They provide you the data above to look into things. They would like to have an idea of the distribution of average sales prices across MLS's and in particular if sales are being driven by outliers. Conduct some brief analysis validating or assuaging their concerns. In particular they want this for the most recent year of data. If you make a chart, be sure to make it readable for them.
+```{r}
+
+```
+
