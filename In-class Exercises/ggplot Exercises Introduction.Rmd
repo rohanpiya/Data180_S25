@@ -1,0 +1,63 @@
+---
+title: "ggplot Introduction Exercises"
+author: "Your Name"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r}
+library(MASS)
+library(ggplot2)
+data(iris)
+data(diamonds)
+data(Cars93)
+```
+
+# Exercise 1: Barplots
+
+## 1.1 Basic Barplot for Iris Species
+
+```{r}
+barplot(table(iris$Species), 
+        main = "Frequency of Iris Species", 
+        xlab = "Species", 
+        ylab = "Frequency", 
+        col = "lightblue")
+
+```
+
+## 1.2 Side-by-Side Barplot for Car Types in Cars93
+
+```{r}
+cars93_table <- table(Cars93$Type, Cars93$DriveTrain)
+cars93_table
+
+barplot(cars93_table, 
+        beside = T, 
+        main = "Car Types by DriveTrain", 
+        xlab = "Car Type", 
+        ylab = "Frequency", 
+        col = 1:6)
+
+```
+
+# Exercise 2: Histograms
+
+## 2.1 Histogram for Iris Sepal Length
+
+```{r}
+hist(iris$Sepal.Length, 
+     main = "Histogram of Iris Sepal Length", 
+     xlab = "Sepal Length", 
+     col = "lightgreen", 
+     border = "white")
+```
+
+# Exercise 3: Scatterplot
+
+## 3.1 Scatterplot of diamonds carat and price
+
+```{r}
+plot(diamonds$price,diamonds$carat,xlab='Price',ylab='Carat')
+```
+
