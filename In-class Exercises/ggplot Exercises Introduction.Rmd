@@ -11,6 +11,7 @@ library(ggplot2)
 data(iris)
 data(diamonds)
 data(Cars93)
+data(txhousing)
 ```
 
 # Exercise 1: Barplots
@@ -26,6 +27,13 @@ barplot(table(iris$Species),
 
 ```
 
+## Do the same with ggplot:
+```{r}
+
+```
+
+
+
 ## 1.2 Side-by-Side Barplot for Car Types in Cars93
 
 ```{r}
@@ -40,7 +48,10 @@ barplot(cars93_table,
         col = 1:6)
 
 ```
+## Do the same with ggplot:
+```{r}
 
+```
 # Exercise 2: Histograms
 
 ## 2.1 Histogram for Iris Sepal Length
@@ -52,7 +63,10 @@ hist(iris$Sepal.Length,
      col = "lightgreen", 
      border = "white")
 ```
+## Do the same with ggplot:
+```{r}
 
+```
 # Exercise 3: Scatterplot
 
 ## 3.1 Scatterplot of diamonds carat and price
@@ -60,4 +74,41 @@ hist(iris$Sepal.Length,
 ```{r}
 plot(diamonds$price,diamonds$carat,xlab='Price',ylab='Carat')
 ```
+## Do the same with ggplot but add a smoothing function (method as lm). Also try it without a method included and change the `linetype` to dotted
+```{r}
+
+```
+# Exercise 4: Advanced ggplot
+
+## Exercise 4.1 Iris Scatterplot (x is Sepal.Length, y is Sepal.Width) with Point Color determined by Species. Do the same for point shape. How about both?
+```{r}
+
+```
+## Exercise 4.2 Cars93 Histogram using Price for every cyclinder (facet_wrap)
+```{r}
+
+```
+## Exercise 4.3 Cars93 Histrogram using Horsepower for every type and Drive Train (facet_grid)
+```{r}
+
+```
+## Exercise 4.4 Scatterplot with Diamonds between depth and table where color is determined by price. Additionally break charts out by cut.
+```{r}
+
+```
+## Exercise 4.5 Movement of median price over time in txhousing. Color equal to city.
+```{r}
+
+```
+## Exercise 4.6 Recreate the Mean v Median Scatterplot from the Abstract Question. Try to identify if any particular cities have an outlier problem. Visualize this in some way.
+```{r}
+
+```
+## Exercise 4.7 Now do this for all years, not just 2015
+```{r}
+
+```
+
+
+
 
