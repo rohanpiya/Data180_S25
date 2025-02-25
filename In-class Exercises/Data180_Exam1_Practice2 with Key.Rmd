@@ -1,0 +1,166 @@
+---
+title: "R Practice Exam Problems 2"
+subtitle: "Spring 2025"
+output: html_document
+---
+
+## Practice Questions
+
+```{r}
+library(datasets)
+library(ggplot2)
+data(airquality)
+airquality=na.omit(airquality)
+data(ToothGrowth)
+```
+
+## Problem 1 
+Using the built-in `airquality` dataset, perform the following tasks:
+
+   a) Filter for rows where `Ozone` levels are greater than 50 and return only the `Ozone` and `Temp` columns.
+   
+```{r}
+airquality[airquality$Ozone>50,c("Ozone","Temp")]
+```
+   
+   b) Filter the dataset for only July and `Wind` speeds above 9. Return the Ozone column.
+   
+```{r}
+airquality[(airquality$Month==7) & (airquality$Wind>9),"Ozone"]
+```
+   
+   c) Create a new column `WCI` that converts the `Temp` and `Wind` columns into the Wind Chill Index. This formula is as follows:
+   35.74+.6215T-35.75(V^.16)+.4275T(V^.16), where T is the temperature and V is the wind speed.
+   
+```{r}
+airquality$WCI <- 35.74 + (0.6215 * airquality$Temp) - (35.75 * (airquality$Wind^0.16)) + (0.4275 * airquality$Temp * (airquality$Wind^0.16))
+```
+   d) Create a scatterplot using ggplot to  visualize the relationship between `Wind` and your new `WCI` column. Label the axes and describe the relationship. Shape each point by month. Color each point by Ozone.
+   
+```{r}
+ggplot(airquality, aes(x = Wind, y = WCI,shape=as.factor(Month),color=Ozone)) +
+  geom_point() +
+  labs(title = "Wind vs. Wind Chill Index", x = "Wind Speed", y = "Wind Chill Index")
+
+```
+
+## Problem 2 
+Perform the following vector-based tasks:
+   
+   a) Create a vector named `multiples_of_four` that contains the first 10 multiples of 4 using an efficient method.
+   
+```{r}
+multiples_of_four <- seq(4,40,4)
+```
+   
+   b) Loop and print out every item from this vector.
+   
+```{r}
+for (i in multiples_of_four){
+   print(i)
+}
+```
+   
+   c) Compute the sum of all elements in `multiples_of_four`.
+   
+```{r}
+sum(multiples_of_four)
+```
+
+## Problem 3 
+Build the following function and implement it in the following tasks:
+   
+   a) Write a function named `convert_to_celcius()` that takes a temperature in Fahrenheit as an argument and returns the equivalent Celsius temperature using the formula: (5/9)*(T-32), where T is the temperature
+   
+```{r}
+convert_to_celcius <- function(T) {
+  return((5/9) * (T - 32))
+}
+convert_to_celcius(88)
+```
+   
+   b) Modify `convert_to_celcius()` to handle a vector of Fahrenheit values as input and return a vector of Celsius values.
+   
+```{r}
+   convert_to_celcius <- function(T) {
+      C = c()
+      for (i in 1:length(T)){
+         C[i]=(5/9) * (T[i] - 32)
+      }
+  return(C)
+   }
+test=c(93,45,82)
+convert_to_celcius(test)
+```
+   
+   c) Use `convert_to_celcius()` to convert the `Temp` column from the `airquality` dataset into Celsius. Make a new column `Temp_C`.
+   
+```{r}
+airquality$Temp_C = convert_to_celcius(airquality$Temp)
+```
+
+## Problem 4 
+Using the `ToothGrowth` dataset, complete the following visualizations:
+
+   a) Create a barplot showing the number of observations for each `dose` level.Do this in Base R and ggplot.
+   
+```{r}
+barplot(table(ToothGrowth$dose), main = "Number of Observations per Dose Level", xlab = "Dose", ylab = "Count", col = 1)
+
+
+ggplot(ToothGrowth, aes(x = dose)) +
+  geom_bar(fill = 2) +
+  labs(title = "Number of Observations per Dose Level", x = "Dose", y = "Count")
+```
+   
+   b) Create a histogram comparing `len` distributions across the `dose` levels. Your answer should have multiple histograms.Do this in ggplot only.
+   
+```{r}
+ggplot(ToothGrowth, aes(x = len)) +
+  geom_histogram() +
+  facet_wrap(~dose)+
+  labs(title = "Tooth Length Distribution by Dose Level", x = "Tooth Length", y = "Count")
+```
+
+## Short Answer
+
+1. What is the key difference between continuous and discrete variables? Intgers v values bewteen the integers
+
+2. If a variable `income_level` is coded as low = 1, medium = 2, high = 3, what type of variable is `income_level`? Oridnal
+
+3. If a variable `hot_days` stores a numeric value measured as the count of days which reached a temperature above 90 degrees in a particular month, what type of variable is `hot_days`? Discrete
+
+4. When a distribution has relatively equal sized tails, we call it what? Symmetric
+
+5. When you knit an R markdown file as we have done in homework. What is the resulting file type? b
+
+   a) `.Rmd`  
+   b) `.html`  
+   c) `.git`  
+   d) `.csv`  
+
+6. What symbol do we use the specify greater than or equal to when filtering a dataframe? >=
+
+7. What function in R returns the first few rows of a dataframe? Implement it on an object called `dataset`.
+
+head(dataset)
+
+8. Write a single line of R code that returns the following sequence: (3, 6, 9, 12, 15, 18). Do not simply write out `c(3,6,9,12,15,18)`.
+
+```{r}
+seq(3,18,3)
+```
+
+9. What is a resistant statistic? Give one example. a stat which resists extreme values/outliers, median
+
+10. A dataset has two distinct peaks in its distribution. What is this type of distribution called? bimodal
+
+11. What are mean, median, and mode attempting to measure? center/centrality
+
+12. Why is variance less useful than standard deviation for analysis? Not in the units of the observations
+
+13. What is the primary difference between a statistic and a parameter in statistics? Statistic for samples, parameter for populations
+
+14. Can a dataset be considered both a population and a sample? Explain with an example. Yes, depends on the reference point for analysis, Class is a sample of Dickinson, population of itself
+
+15. What is the purpose of `geom_smooth()` in `ggplot2`? How does it enhance a scatterplot? Adds a fitted line to the data by building a model, gives us an idea of the relationship between two values.

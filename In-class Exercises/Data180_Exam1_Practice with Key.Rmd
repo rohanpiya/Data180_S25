@@ -1,0 +1,208 @@
+---
+title: "R Practice Exam Problems"
+subtitle: "Spring 2025"
+output: 
+  html_document
+---
+
+## Problem 1
+
+Suppose we have a vector named `mycharacters` with popular movie characters:
+
+```{r}
+mycharacters <- c('Harry Potter', 'Darth Vader', 'Frodo Baggins', 'Indiana Jones', 'Sherlock Holmes')
+```
+
+a) Add `Luke Skywalker` as the final item in this vector. Do not rewrite the whole vector.
+
+```{r}
+mycharacters[6]='Luke Skywalker'
+```
+
+b) Write a loop that iterates through and prints every element in the `mycharacters` vector.
+
+```{r}
+for (char in mycharacters){
+  print(char)}
+```
+
+## Problem 2
+
+Suppose we want to create the following data frame named `movie_earnings`. Write R code that creates the data frame shown below. Earnings is in number of billions.
+
+
+| Character        | Earnings            | RottenTomatoes       |
+|-----------------|----------------------|------------------|
+| Harry Potter    | 7.7                  | 84                   |
+| Darth Vader     | 8.5                  | 92                   |
+| Frodo Baggins   | 8.6                  | 94                   |
+| Indiana Jones   | 5.8                  | 95                   |
+| Sherlock Holmes | 4.2                  | 87                   |
+| Luke Skywalker  | 6.3                  | 89                   |
+
+```{r}
+movie_earnings <- data.frame(
+  Character = c("Harry Potter", "Darth Vader", "Frodo Baggins", "Indiana Jones", "Sherlock Holmes", "Luke Skywalker"),
+  Earnings = c(7.7, 8.5, 8.6, 5.8, 4.2, 6.3),
+  RottenTomatoes = c(84, 92, 94, 95, 87, 89)
+)
+```
+
+## Problem 3: Filtering and Modifying a Data Frame
+
+Using the `movie_earnings` dataset from above, perform the following tasks:
+
+ a) Filter the dataset to return only rows with earnings greater than 7 billion.
+
+```{r}
+movie_earnings[movie_earnings$Earnings>7,]
+```
+
+ b) Filter the dataset for movies with a Rotten Tomatoes Score greater than 85 and return only the `Character` and `Earnings` columns.
+
+```{r}
+movie_earnings[movie_earnings$RottenTomatoes>85,c("Character","Earnings")]
+```
+
+ c) Add a new column called `Franchise` that categorizes each character according to the film series they are a part of.
+
+```{r}
+movie_earnings$Franchise <- c("Harry Potter", "Star Wars", "Lord of the Rings", "Indiana Jones", "Sherlock Holmes", "Star Wars")
+```
+
+## Problem 4: 
+
+ a) Define a function
+Write a function named `my_func` that takes a numeric input, multiplies it by 2, and then adds 5 to the result.
+
+```{r}
+my_func <- function(x) {
+  return((x * 2) + 5)
+  }
+```
+
+ b) Create a for loop
+Write a for loop that runs 5 times, applying `my_func` to the loop index (`i`) in each iteration, and summing all the results.
+
+```{r}
+sum_result <- 0
+for (i in 1:5) {
+  sum_result <- sum_result + my_func(i)
+}
+sum_result
+```
+
+## Problem 5: Base R Visualizations
+
+```{r}
+data(PlantGrowth)
+```
+
+Using the built-in **PlantGrowth** dataset, create the following visualizations. Label you axis appropriately and add titles.
+
+ a) Barplot
+Create a barplot showing the number of relative frequency each treatment group.
+
+```{r}
+barplot(table(PlantGrowth$group)/nrow(PlantGrowth),
+        main = "Relative Frequency of Treatment Groups",
+        xlab = "Treatment Group", 
+        ylab = "Relative Frequency",
+        col = 4)
+```
+
+ b) Histogram
+Create a histogram of the plant weights. Make sure it follows the rule of thumb.
+
+```{r}
+hist(PlantGrowth$weight, 
+     main = "Histogram of Plant Weights", 
+     xlab = "Weight", 
+     col = 6,
+     breaks=5)
+```
+
+ c) Pie
+ Create a pie chart of the frequency distribution of each treatment group.
+
+```{r}
+pie(table(PlantGrowth$group),
+    main = "Frequency Distribution of Treatment Groups",
+    col = 1:3)
+```
+
+## Problem 6: ggplot2 Visualizations
+
+```{r}
+library(ggplot2)
+data(mtcars)
+```
+
+Using the built-in **mtcars** dataset, create the following visualizations:
+
+ a) Barplot
+Create a barplot showing the count of cars for each cylinder category.
+
+```{r}
+ggplot(mtcars, aes(x = factor(cyl))) +
+  geom_bar(fill = 8) +
+  labs(title = "Count of Cars by Cylinder Category", x = "Cylinders", y = "Count")
+```
+
+ b) Histogram
+Create a histogram of the `mpg` (miles per gallon) column. Make sure it follows the rule of thumb.
+
+```{r}
+ggplot(mtcars, aes(x = mpg)) +
+  geom_histogram(fill = 9,bins=4) +
+  labs(title = "Histogram of Miles Per Gallon", x = "MPG", y = "Count")
+```
+
+ c) Scatterplot with Smoothing
+Create a scatterplot of horsepower (`hp`) vs. weight (`wt`) and overlay a smoothing line.
+
+```{r}
+ggplot(mtcars, aes(x = wt, y = hp)) +
+  geom_point(color = "red", size = 3,shape=13) +
+  geom_smooth(method = "lm",linetype=2) +
+  labs(title = "Scatterplot of Horsepower vs. Weight with Smoothing", x = "Weight (1000 lbs)", y = "Horsepower")
+```
+
+## Short Answer
+
+1. What is the key difference between a sample and a population?  Portion v distribution
+
+2. If a variable `education_level` is coded such that high school = 1, bachelor's = 2, master's = 3, PhD = 4, what type of variable is `education_level`?  Ordinal
+
+3. Why might the median be preferred over the mean in a dataset with extreme outliers?  Mean is pulled by outliers, median is not
+
+4. A distribution that has a long right tail is called what?  Right-skew
+
+5. When a dataset has 1 mode, we call it what? unimodal
+
+6. If a variable `phone_number` stores a person’s 10-digit phone number, what type of variable is `phone_number`? Nominal
+
+7. What are variance and standard deviation attempting to measure? spread
+
+8. What do we call the process of solving a mathematical problem backwards?  recursion
+
+9. Name one statistic that is considered non-resistant.  mean
+
+10. What is it called when a dataset has more observations on one side, creating a longer tail?  skewness
+
+11. Write a single line of R code that returns the following sequence: (5,10,15,20,25,30). Do not simply write out `c(5,10,15,20,25,30)`.  
+    ```{r}  
+print(seq(5,30,5))
+    ```  
+
+12. What is the key difference between categorical and numerical variables? Expresses info on a category versus the count or measure of something
+
+13. What is the primary difference between a scatterplot and a line plot? line plot connects points with a line scatter places just the points
+
+14. Which of the following R functions is used to read a CSV file? b
+    a) `read.table()`  
+    b) `read.csv()`  
+    c) `readLines()`  
+    d) `scan()`  
+
+15. What type of numeric variable might we use a barplot to show the distribution for? Discrete
