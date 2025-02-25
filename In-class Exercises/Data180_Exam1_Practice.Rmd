@@ -1,0 +1,181 @@
+---
+title: "R Practice Exam Problems"
+subtitle: "Spring 2025"
+output: 
+  html_document
+---
+
+## Problem 1
+
+Suppose we have a vector named `mycharacters` with popular movie characters:
+
+```{r}
+mycharacters <- c('Harry Potter', 'Darth Vader', 'Frodo Baggins', 'Indiana Jones', 'Sherlock Holmes')
+```
+
+a) Add `Luke Skywalker` as the final item in this vector. Do not rewrite the whole vector.
+
+```{r}
+
+```
+
+b) Write a loop that iterates through and prints every element in the `mycharacters` vector.
+
+```{r}
+
+```
+
+## Problem 2
+
+Suppose we want to create the following data frame named `movie_earnings`. Write R code that creates the data frame shown below. Earnings is in number of billions.
+
+
+| Character        | Earnings            | RottenTomatoes       |
+|-----------------|----------------------|----------------------|
+| Harry Potter    | 7.7                  | 84                   |
+| Darth Vader     | 8.5                  | 92                   |
+| Frodo Baggins   | 8.6                  | 94                   |
+| Indiana Jones   | 5.8                  | 95                   |
+| Sherlock Holmes | 4.2                  | 87                   |
+| Luke Skywalker  | 6.3                  | 89                   |
+
+```{r}
+
+```
+
+## Problem 3: Filtering and Modifying a Data Frame
+
+Using the `movie_earnings` dataset from above, perform the following tasks:
+
+ a) Filter the dataset to return only rows with earnings greater than 7 billion.
+
+```{r}
+
+```
+
+ b) Filter the dataset for movies with a Rotten Tomatoes Score greater than 85 and return only the `Character` and `Earnings` columns.
+
+```{r}
+
+```
+
+ c) Add a new column called `Franchise` that categorizes each character according to the film series they are a part of.
+
+```{r}
+
+```
+
+## Problem 4: 
+
+ a) Define a function
+Write a function named `my_func` that takes a numeric input, multiplies it by 2, and then adds 5 to the result.
+
+```{r}
+
+```
+
+ b) Create a for loop
+Write a for loop that runs 5 times, applying `my_func` to the loop index (`i`) in each iteration, and summing all the results.
+
+```{r}
+
+```
+
+## Problem 5: Base R Visualizations
+
+```{r}
+data(PlantGrowth)
+```
+
+Using the built-in **PlantGrowth** dataset, create the following visualizations. Label you axis appropriately and add titles.
+
+ a) Barplot
+Create a barplot showing the number of relative frequency each treatment group.
+
+```{r}
+
+```
+
+ b) Histogram
+Create a histogram of the plant weights. Make sure it follows the rule of thumb.
+
+```{r}
+
+```
+
+ c) Pie
+ Create a pie chart of the frequency distribution of each treatment group.
+
+```{r}
+
+```
+
+## Problem 6: ggplot2 Visualizations
+
+```{r}
+library(ggplot2)
+data(mtcars)
+```
+
+Using the built-in **mtcars** dataset, create the following visualizations:
+
+ a) Barplot
+Create a barplot showing the count of cars for each cylinder category.
+
+```{r}
+
+```
+
+ b) Histogram
+Create a histogram of the `mpg` (miles per gallon) column. Make sure it follows the rule of thumb.
+
+```{r}
+
+```
+
+ c) Scatterplot with Smoothing
+Create a scatterplot of horsepower (`hp`) vs. weight (`wt`) and overlay a smoothing line.
+
+```{r}
+
+```
+
+## Short Answer
+
+1. What is the key difference between a sample and a population?  
+
+2. If a variable `education_level` is coded such that high school = 1, bachelor's = 2, master's = 3, PhD = 4, what type of variable is `education_level`? 
+
+3. Why might the median be preferred over the mean in a dataset with extreme outliers?  
+
+4. A distribution that has a long right tail is called what?  
+
+5. When a dataset has 1 mode, we call it what?
+
+6. If a variable `phone_number` stores a person’s 10-digit phone number, what type of variable is `phone_number`?  
+
+7. What are variance and standard deviation attempting to measure?  
+
+8. What do we call the process of solving a mathematical problem backwards?  
+
+9. Name one statistic that is considered non-resistant.  
+
+10. What is it called when a dataset has more observations on one side, creating a longer tail?  
+
+11. Write a single line of R code that returns the following sequence: (5,10,15,20,25,30). Do not simply write out `c(5,10,15,20,25,30)`.  
+    ```{r}  
+
+    ```  
+
+12. What is the key difference between categorical and numerical variables?  
+
+13. What is the primary difference between a scatterplot and a line plot?  
+
+14. Which of the following R functions is used to read a CSV file?  
+    a) `read.table()`  
+    b) `read.csv()`  
+    c) `readLines()`  
+    d) `scan()`  
+
+15. What type of numeric variable might we use a barplot to show the distribution for?  
+
