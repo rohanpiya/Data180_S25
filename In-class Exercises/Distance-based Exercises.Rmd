@@ -1,0 +1,68 @@
+---
+title: "Distance Exercises"
+output: 
+  html_document
+---
+
+## Exercise 1:
+
+Given the following two observations:
+
+- Observation A: (2, 5)
+- Observation B: (7, 9)
+
+1. Calculate the Euclidean distance between Observation A and Observation B by hand.
+2. Run code which does this calculation.
+
+```{r}
+mat <- matrix(c(2,7,5,9),nrow=2,byrow=F)
+```
+
+## Exercise 2: Manhattan Distance
+
+Using the same observations from Exercise 1:
+
+**Tasks:**
+
+1. Calculate the Manhattan distance between Observation A and Observation B by hand.
+2. Do this in code.
+
+```{r}
+mat <- matrix(c(2,7,5,9),nrow=2,byrow=F)
+```
+
+
+## Exercise 3: Minkowski Distance
+
+Again, using the same observations:
+
+
+1. Calculate the Minkowski distance between Observation A and Observation B with \( p = 3 \).
+2. Do this in code.
+
+```{r}
+mat <- matrix(c(2,7,5,9),nrow=2,byrow=F)
+```
+
+## Exercise 4: Calculating Distances in `Cars93`
+
+Load the `MASS` package to access the `Cars93` dataset.
+
+```{r}
+library(MASS)
+library(tidyverse)
+data("Cars93")
+```
+
+1. Make a new dataframe with the following numerical variables: `Horsepower`, `MPG.city`, and `EngineSize`. Use only the first 10 rows.
+3. Compute the Euclidean distance matrix for these variables using R.
+4. Compute the Manhattan distance matrix for these variables using R.
+5. Compute the Minkowski distance matrix with \( p = 3 \) using R.
+6. Interpret the results: Which cars are most similar according to each distance measure? Does this change depending on the measure?
+
+```{r}
+
+```
+
+---
+
