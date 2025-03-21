@@ -1,0 +1,79 @@
+---
+title: "Basketball Exercise"
+output: html_document
+date: "2025-03-21"
+---
+
+In honor of March Madness, we're going to look at how something like a clustering algorithm can be used to analyze the similarity (or dissimilarity) of different teams currently in the Men's tournament.
+To get started, let's first import the dataset below. This contains shooting splits as well as major resume rankings of every team that has been in the tournament since 2010.
+```{r}
+library(tidyverse)
+data=read.csv('Basketball Data.csv')
+```
+
+With that imported, let's first make sure our data are formatted and processed correctly to ensure we can run the clustering algorithm. Remember, our current methods will only work on continuous variables. Because of this there are a few columns that don't fit. Go ahead and get rid of those. One of the neat things about the `select` function is we can actually get rid of columns with it. If we use `select(-column)` this will remove the columns from the dataframe. 
+This is especially nice for this assignment given we have so many variables and only a few problem areas.
+
+## Exercise 1:
+Use the chunk below to remove these problematic rows. Let's also only look at teams in the tournament this year and drop the seeding variable. Save this information as a new dataframe.
+```{r}
+data= data %>% filter(year==2025)
+data_clust = data %>% select(-X,-year,-`TEAM.NO`,-`TEAM.ID`,-team,-SEED)
+```
+
+With our data cleaned up we can now run our necessary calculations.
+
+## Exercise 2:
+Create a pipeline which calculates the distance between teams using a Euclidean metric and then a hierarchical clustering process using average linkage. Save this to a variable called `clust_data`.
+```{r}
+clust_data = data_clust %>% dist() %>% hclust(method='average')
+```
+
+## Exercise 3:
+Now we need to visualize this information. To do that, let's make the dendrogram we discussed today. You can just use the base R method. Additionally, practice putting a rectangle around a cutoff point. Let's use `k=4` as that point.
+```{r}
+plot(clust_data)
+rect.hclust(clust_data,k=4)
+```
+
+## Exercise 4:
+Now we can use `cutree` to extract what cluster each team is actually a part of so we can do a little further testing. Use a cutoff to extract membership at k=3,4, and 5. Add these new clusters to the original dataframe.
+```{r}
+clust_final = clust_data %>% cutree(k=c(3,4,5))
+data['k3']=clust_final[,1]
+data['k4']=clust_final[,2]
+data['k5']=clust_final[,3]
+data_summary = data %>% select(team,SEED,k3,k4,k5)
+```
+
+## Exercise 5:
+Let's see if there are any patterns emerging in the data. Let's create a scatterplot of `NET RPI` and `ELO` where each point is colored by the its cluster membership. Do this for all 3 of the sets of clusters (3,4,5). You should have 3 scatterplots at the end.
+```{r}
+ggplot(data,aes(x=`NET.RPI`,y=ELO,color=as.factor(k3)))+
+  geom_point()
+ggplot(data,aes(x=`NET.RPI`,y=ELO,color=as.factor(k4)))+
+  geom_point(alpha=.5)
+ggplot(data,aes(x=`NET.RPI`,y=ELO,color=as.factor(k5)))+
+  geom_point()
+```
+## Exercise 5:
+We do get some nice clean clusters here, but it looks like most of the observations are in cluster 2. Let's filter our data from the `k=4` framework to just include teams from those clusters and rerun our analysis. We can then do the same visualizations as before with the new smaller dataset. After this, take a look at some of membership and see what surprises you. 
+```{r}
+data_small = data %>% filter(k4==2) %>% select(-k3,-k4,-k5)
+data_clust = data_small %>% select(-year,-`TEAM.NO`,-`TEAM.ID`,-team,-SEED)
+clust = dist(data_clust) %>% hclust(method='average')
+plot(clust)
+rect.hclust(clust,k=4)
+clust_final = clust %>% cutree(k=c(3,4,5))
+data_small['k3']=clust_final[,1]
+data_small['k4']=clust_final[,2]
+data_small['k5']=clust_final[,3]
+ggplot(data_small,aes(x=`NET.RPI`,y=ELO,color=as.factor(k3)))+
+  geom_point()
+ggplot(data_small,aes(x=`NET.RPI`,y=ELO,color=as.factor(k4)))+
+  geom_point(alpha=.5)
+ggplot(data_small,aes(x=`NET.RPI`,y=ELO,color=as.factor(k5)))+
+  geom_point()
+data_sum = data_small %>% select(team,SEED,k3,k4,k5)
+```
+
