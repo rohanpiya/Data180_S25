@@ -15,7 +15,6 @@ A =
 $$
 ```{r}
 A <- matrix(c(-3, 5, 2, -1, 4, 0), nrow = 2, byrow = F)
-dist(A,method="manhattan")
 ```
 
 ##Exercise 2:
@@ -38,7 +37,7 @@ B <- matrix(c(
   4, 0, -5, 2, 3, -2
 ), nrow = 4, byrow = TRUE)
 
-dist(B,method="euclidian",diag=T)
+
 ```
 
 ##Exercise 3: 
@@ -58,7 +57,7 @@ C <- matrix(c(
   -5, 3, 1, 0,
   2, -2, 4, -4
 ), nrow = 3, byrow = TRUE)
-dist(C,method="minkowski",p=3,diag=T)
+
 ```
 
 ##Exercise 4:
@@ -91,6 +90,5 @@ D <- as.dist(matrix(c(
   4.2, 3.3, 2.5, 0, 3.6,
   5.1, 4.7, 4.0, 3.6, 0
 ), nrow = 5, byrow = TRUE))
-hc <- hclust(as.dist(D),method="single")
-plot(hc)
+
 ```
