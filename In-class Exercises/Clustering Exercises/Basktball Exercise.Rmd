@@ -7,6 +7,7 @@ date: "2025-03-21"
 In honor of March Madness, we're going to look at how something like a clustering algorithm can be used to analyze the similarity (or dissimilarity) of different teams currently in the Men's tournament.
 To get started, let's first import the dataset below. This contains shooting splits as well as major resume rankings of every team that has been in the tournament since 2010.
 ```{r}
+library(tidyverse)
 data=read.csv('Basketball Data.csv')
 ```
 
