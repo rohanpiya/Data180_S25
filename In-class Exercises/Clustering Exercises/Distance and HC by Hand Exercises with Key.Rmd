@@ -66,9 +66,15 @@ dist(C,method="minkowski",p=3,diag=T)
 Complete the following:
 Calculate the nearest neighbor distance between (1,2) and (4,5)
 
+3.3
+
 Calculate the furthest neighbor distance between (3,5) and (1,2,4)
 
+5.1
+
 Calculate the average neighbor distance between (1,3) and (2,4,5)
+
+(2.1+4.2+5.1+1.8+2.5+4.0)/(2*3)=3.28
 
 ## Exercise 5:
 
@@ -91,5 +97,5 @@ D <- as.dist(matrix(c(
   4.2, 3.3, 2.5, 0, 3.6,
   5.1, 4.7, 4.0, 3.6, 0
 ), nrow = 5, byrow = TRUE))
-
+plot(hclust(dist(D),method='single'))
 ```
