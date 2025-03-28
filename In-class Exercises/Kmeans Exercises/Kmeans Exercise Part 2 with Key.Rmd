@@ -1,0 +1,116 @@
+---
+title: 'Kmeans Clustering Part 2: US Counties'
+output: html_document
+
+---
+
+# Introduction
+To begin, run the chunk below to load the data packages we will be working with. It is called `US_County_Data.csv` and contains a collection of descriptors abouve almost eveyr county in the United States (3,135/3,144). In particular, it contains poverty rates, education levels, unemployment rates, and median household income at the county level. This type of info effectively conveys the economic health of a county. 
+
+```{r}
+library(tidyverse)
+data = read.csv('US_County_Data.csv')
+```
+
+One type of way this information could be used is to evaluate how similar or dissimilar various counties are. This is useful for policymaking because two places which are a lot alike should be good candidates for the same policy construction. Places that are different might require different approaches. Let's use k-means clustering to evaluate this problem.
+
+# Exercise 1:
+To begin, let's do a little bit of preprocessing here to ensure our data are suited towards the kmeans method. We need to remove a few columns here. Remember our method currently can only use numerical data. There are 4 columns you need to remove.
+```{r}
+kmeans_data = data %>% select(-X,-FIPS_Code,-Stabr,-Area_Name)
+```
+
+# Exercise 2:
+Now at first, let's just try a couple of clustering processes. Run a kmeans algorithm 50 times at `k=3`, `k=4`, and `k=5`. How well does each clustering algorithm perform?
+```{r}
+kmeans3 = kmeans_data %>% kmeans(centers=3,nstart=50)
+kmeans4 = kmeans_data %>% kmeans(centers=4,nstart=50)
+kmeans5 = kmeans_data %>% kmeans(centers=5,nstart=50)
+
+kmeans3$tot.withinss
+kmeans4$tot.withinss
+kmeans5$tot.withinss
+```
+
+# Exercise 3:
+Now we could just keep trying increasingly large numbers of clusters, but that isn't the most technical process. So instead, let's use the elbow method we talked about today. Create a loop that iterates from 2 to 20 with using that to recalculate your clusters. Plot the results. One thing to note here, you'll likely get a Failure to Converge warning. This is caused by the underlying optimization algorithm failing to settle in given the number of iterations. You can force a higher number of iterations by changing `iter.max` in the `kmeans` function. By default, it is set to 10 but let's increase it to 100.
+```{r}
+score = c()
+for (k in 2:20){
+  score_k = kmeans_data %>% kmeans(centers=k,nstart=75,iter.max=100)
+  score[k-1]=score_k$tot.withinss
+}
+plot(2:20,score,type='b',xlab='Clusters',ylab='Total WCSS')
+```
+
+# Exercise 4:
+Now that we've identified an suitably decent level of clusters, we can take a look at implementing that model and extracting the clusters. Run the `kmeans` function again, still using your updated `nstart` and `iter.max` arguments. Once you've extract the clusters from the function output and appended them to the dataframe, use your `dplyr` tools to get some aggregated info about the clusters. Are there any clear patterns in the data? Choose 3 of the variables to analyze.
+```{r}
+kmeans5 <- kmeans_data %>% kmeans(centers=5,nstart=75,iter.max=100)
+data_output = data
+data_output$cluster = kmeans5$cluster
+sum_kmeans = data_output %>% group_by(cluster) %>% summarize(avg_pov=mean(PCTPOVALL_2023),avg_high=mean(HighSchool),avg_inc=mean(MEDHHINC_2023),avg_coll=mean(CollegeOrHigher),avg_u=mean(Unemployment_rate_2023))
+sum_kmeans
+```
+
+# Exercise 5:
+So the elbow curve is a useful sort of guidance approach but judging where the bend is certainly isn't the MOST technical method. Let's revisit our analysis from Exercise 3 but this time use the CH index from slide 24. Here the best solution (number of clusters) is the one that maximizes the index. You can still use the outputs of the `kmeans` function to calculate this and then plot it.
+```{r}
+score = c()
+for (k in 2:20){
+  score_k = kmeans_data %>% kmeans(centers=k,nstart=75,iter.max=100)
+  ch = (score_k$betweenss/(k-1))/(score_k$tot.withinss/(nrow(kmeans_data)-k))
+  score[k-1]=ch
+}
+plot(2:20,score,xlab='Clusters',ylab='CH Index Score')
+```
+
+#Exercise 6:
+Hopefully what you see from the above is that our initial point of 5 or 6 clusters seems solid. So why do all of this? Well, create a visualization that uses your clustered data to express some relationship in the counties. This can be a histogram, a scatterplot, or anything you feel might be relevant. Take full advantage of the `ggplot` or Base R toolkit you've developed thus far. 
+```{r}
+
+```
+
+
+# An Extra Use
+So one thing we may want to do is use the fact this is spatial data to see if there is a spatial relationship. We can do that using the `maps` package like we have done prior. If you run the code below, you'll be able to make a map of the US with all of the counties we have and color them by cluster membership.
+
+```{r}
+library(maps)
+#data_ouput = #Insert your result dataframe here
+df <- data_output %>%
+  mutate(
+    state = tolower(Stabr),
+    county = tolower(gsub(" (County|Parish)$", "", Area_Name))
+  )
+state_abbrev_to_name <- data.frame(
+  Stabr = state.abb,
+  state_name = tolower(state.name)
+)
+
+df <- df %>%
+  left_join(state_abbrev_to_name, by = "Stabr")
+county_map <- map_data("county")
+county_map_data <- county_map %>%
+  left_join(df, by = c("region" = "state_name", "subregion" = "county"))
+
+# Plot using ggplot2
+ggplot(county_map_data, aes(long, lat, group = group, fill = as.factor(cluster))) +
+  geom_polygon(color = "white", size = 0.1) +
+  coord_fixed(1.3) +
+  theme_void() +
+  labs(title = "U.S. County Cluster Memberships")
+
+```
+
+
+
+Lastly, we can go ahead and extract all the clusters as seperate csv's for some easy exploration.
+```{r}
+for (k in 1:5){
+  test = data_output %>% filter(cluster==k) %>% select(Area_Name, Stabr)
+  name = paste0('cluster',as.character(k),'.csv')
+  write.csv(test,name)
+}
+```
+
