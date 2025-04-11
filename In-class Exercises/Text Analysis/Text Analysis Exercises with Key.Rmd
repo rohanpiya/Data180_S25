@@ -1,0 +1,179 @@
+---
+title: "Text Analysis Exercises"
+output: html_document
+---
+
+```{r}
+library(tm)
+library(quanteda.textstats)
+library(quanteda.textplots)
+library(quanteda)
+library(tidyverse)
+library(tm)
+```
+
+```{r}
+text <- scan('WaroftheWorlds.txt', what = "", sep = "\n", quiet = TRUE)
+```
+
+
+# Excercise: TM and Dictionary
+Let's use our `tm` library to do some basic text analysis. First, extract the text data from `WaroftheWorlds.txt` file and create two objects, a wordVector using `VectorSource()` and a corpus object, using `Corpus()`
+```{r}
+text_vec <- VectorSource(text)
+text_corp <- Corpus(text_vec)
+```
+
+Now let's tokenize and clean up our text so that we can use it for actual analysis. Remember in `tm` we use `tm_map(object, operation)` to clean up this data. The three operations we want to run are `content_transformer(tolower)`, `removePunctuation`, `removeNumbers`, and `removeWords` with a third argument specifying we want to remove stopwords, `stopwords('english`)`. You will need to use the `tm_map` function 4 times.
+```{r}
+
+text_corp <- tm_map(text_corp, content_transformer(tolower))
+text_corp <- tm_map(text_corp, removePunctuation)
+text_corp <- tm_map(text_corp, removeNumbers)
+text_corp <- tm_map(text_corp, removeWords, stopwords("english"))
+
+text_corp[["1"]][["content"]]
+```
+
+The next step is to take that newly cleaned corpus and convert it into a dtm with `TermDocumentMatrix()`. Do so now and then convert that output to a regular matrix.
+```{r}
+text_tdm <- TermDocumentMatrix(text_corp)
+text_tdm_m <- as.matrix(text_tdm)
+
+```
+
+Let's get the frequency of each of these words. With a matrix, we can do this with `RowSums` and `sort`. What are the 10 most frequent words.
+```{r}
+word_counts <- rowSums(text_tdm_m)
+word_counts <- sort(word_counts, decreasing=T)
+head(word_counts,20)
+```
+
+As a final exercise, let's create a visualizations of this count. Use a minimum threshold of 50. Remember, it is best to use a barplot to achieve this.
+```{r}
+par(mar = c(10, 6, 6, 2))
+barplot(word_counts[word_counts>50],las=2,cex.names=0.75)
+```
+
+
+# Excercise: Quanteda Basics
+Let's analyze a collection of headlines from various reputable news national news sources using quanteda. First we need to read in the file. This is a collection of news headlines pulled from News API. It covers a set of mainstream sources from 3/11-4/10 so about a month.
+```{r}
+headline_data <- read.csv('mainstream_headlines.csv',header=T)
+```
+
+Now the first step is to extract the actual text we care about which come from the `Title` column to establish our vector of text. We can also convert the text to all lowercase by putting that vector in a `tolower()` function.
+```{r}
+char_vec = tolower(headline_data$Title)
+```
+
+Now let's use the `quanteda` family of functions to convert these headlines into a Document Term/Document Feature Matrix. To do this, we need create a simple pipeline which takes the vector, feeds it into the `tokens()` function. In that function we need to processing some parts of the tokens. We need to remove punctuation with `remove_punct=T`, remove symbols with `remove_symbols=T`, and remove numbers with `remove_numbers=T`. The last thing is to remove stopwords. Here we pipe the tokenized character vector into a `tokens_remove()` function. Here we specify `stopwords('en')`. Compare our tokenized headlines with our original using head().
+```{r}
+text_data  <- char_vec %>% tokens(remove_punct=T,remove_symbols=T,remove_numbers=T) %>% tokens_remove(stopwords('en'))
+head(text_data,2)
+head(char_vec,2)
+```
+
+Once this is done, we need convert the output to a Term Document Matrix. `quanteda` calls this a `dfm()` (again slightly different words for the same thing). We can just put out tokens in the `dfm()` function to successfully convert them.
+```{r}
+text_data <- dfm(text_data)
+```
+We now have fully prepared our data for analysis. Let's first get some frequencies. We can use `textstat_frequency` which takes two main arguments the data itself and the number of words we want. So we can use our text data and `n=10` to pull the top 10 words in our data.
+```{r}
+output = textstat_frequency(text_data,n=10)
+output
+```
+
+
+Another neat thing we can to is create `ngrams` which are effectively combinations of words and then evaluate how freuquent those combinations are. Starting again with the character vector (i.e. the original column from the dataset), redo your cleaning process but this time, use `tokens_ngram(n=2)`. This will create bigrams for pairs of words, then go do the top ten pairs of words.
+```{r}
+char_vec = tolower(headline_data$Title)
+text_bigram  <- char_vec %>% tokens(remove_punct=T,remove_symbols=T,remove_numbers=T) %>% tokens_remove(stopwords('en')) %>% tokens_ngrams(n=2) %>% dfm()
+output = textstat_frequency(text_bigram,n=10)
+output
+```
+
+With some practice on how to create frequency distributions for words, let's now create a word cloud. To do this, we use the `textplot_wordcloud()` function which just takes our data as argument. However, the `text_plot` word cloud will output every single word in our text which is not quite what we want. Thankfully, we can trim the data feature matrix we made using `dfm_trim()`. This takes as arugments our data and, most important for us, a minimum frequency argument called `min_termfreq`. Let's trim the `dfm` to only those words which show up at least 20 times. We could also use `min_docfreq` if we instead wanted to filter by how many documents a word shows up in. Go ahead and try both. We could also try this with our bigrams as well (though we'll need to cut back on our filtering some)!
+```{r}
+text_data_trim <- text_data %>% dfm_trim(min_termfreq = 5)
+textplot_wordcloud(text_data_trim)
+```
+# Exercise: Quanteda Topic Models
+Before we begin, run the chunk below to import the necessary packages. If we get an error later, you may need to install the `reshape2` package which is currently commented out.
+```{r}
+library("topicmodels")
+library('tidytext')
+#install.packages("reshape2")
+```
+
+Now before we get started, we need to convert our data into a corpus, separate out by paragraphs. Here we use the `corpus()` function and then `corpus_reshape()` with our newly created corpus and then the `to=` argument set to paragraphs.
+```{r}
+newscorpus <- corpus(char_vec)
+paras <- corpus_reshape(newscorpus, to="paragraphs")
+```
+
+With this done, now we can do some topic modelling with LDA. Here we need to first convert our corpus, using our cleaning methods from earlier, into a `dfm`. You can just use your code from earlier. Then convert that to an object `topicmodels` can work with. To do this, simply put `convert(data, to='topicmodels')`. Replace data with whatever you have named your data. Then use the following to create your `LDA` model, `LDA(dtm, method = "VEM", control=list(seed=1234), k=4)`. Here we create 4 topics (akin to clusters) that be detected. Be sure to replace `dtm` with your dtm variable. Then use `terms(model,5)` to extract the 5 most common terms in our four topics.
+```{r}
+text_data  <- paras %>% tokens(remove_punct=T,remove_symbols=T,remove_numbers=T) %>% tokens_remove(stopwords('en')) %>% dfm()
+headline_topics <- convert(text_data, to = "topicmodels")
+topic_model <- LDA(headline_topics, method = "VEM", control=list(seed=1234), k=3)
+terms(topic_model,5)
+```
+
+Some of this is helpful, but you can see there are a lot of words which seem to be gunking up the works. Let's create a vector of these words called `bad_words` and then pair that with `tokens_remove()` in our pipeline to maybe better represent the topics of the news.
+```{r}
+bad_words <- c('say','us','new','years')
+text_data  <- paras %>% tokens(remove_punct=T,remove_symbols=T,remove_numbers=T) %>% tokens_remove(stopwords('en')) %>% tokens_remove(bad_words) %>% dfm()
+headline_topics <- convert(text_data, to = "topicmodels")
+topic_model <- LDA(headline_topics, method = "VEM", control=list(seed=1234), k=3)
+terms(topic_model,5)
+```
+
+This is better, but you can see we're still getting some things that aren't helpful. Let's use `dfm_wordstem()` at the end of our pipeline and see if that helps.
+```{r}
+bad_words <- c('us','new','years','say','says')
+text_data  <- paras %>% tokens(remove_punct=T,remove_symbols=T,remove_numbers=T) %>% tokens_remove(stopwords('en')) %>% tokens_remove(bad_words) %>% dfm() %>% dfm_wordstem()
+headline_topics <- convert(text_data, to = "topicmodels")
+topic_model <- LDA(headline_topics, method = "VEM", control=list(seed=1234), k=3)
+terms(topic_model,5)
+```
+Let's go ahead and create some visualizations of the Beta results (probability a word shows up in a topic) and the Gamma results (probability a topic shows up in a document). I have included the code you need to run these results below.
+
+The below chunk creates beta distributions.
+```{r}
+tidy_topics <- tidy(topic_model, matrix = "beta")
+tidy_topics
+
+head_top_topics <- tidy_topics %>%
+  group_by(topic) %>%
+  slice_max(beta, n = 10) %>% # cool func, gets the max n for each topic group
+  ungroup() %>% # to get the tibble without group tag
+  arrange(topic, -beta) # sort by topic, beta decreasing
+
+head_top_topics %>%
+  mutate(term = reorder_within(term, beta, topic)) %>% # this hack is to order for facet
+  ggplot(aes(beta, term, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~topic, scales = "free") + # scales="free" allows x-y scales to be free.
+  scale_y_reordered() # used in combo with reorder_within
+```
+
+This chunk creates the gamma distributions.
+```{r}
+tidy_news <- tidy(topic_model, matrix = "gamma")
+
+# gamma plots
+top_headlines <- tidy_news %>%
+  group_by(topic) %>%
+  slice_max(gamma, n = 5) %>% 
+  ungroup() %>%
+  arrange(document, -gamma)
+
+top_headlines %>%
+  mutate(document = reorder_within(document, gamma, topic)) %>%
+  ggplot(aes(gamma, document, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~topic, scales = "free") +
+  scale_y_reordered() # takes care of labels
+```
+
