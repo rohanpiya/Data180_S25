@@ -50,7 +50,7 @@ cars_small <- cars %>% select(cyl,am,hp,wt,gear)
 
 Calculate a similarity matrix using car_small. Be sure to convert categorical variables (or discretes that are effectively categoricals) appropriately. Print the top 6 rows and columns of the resulting matrix.
 ```{r}
-
+library(cluster)
 ```
 
 
