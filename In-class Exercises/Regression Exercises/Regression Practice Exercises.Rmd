@@ -1,0 +1,67 @@
+---
+title: "Regression Practice Exercises"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+bike_data <- read.csv('https://raw.githubusercontent.com/kesslerz-dickinson/Data180_S25/refs/heads/main/In-class%20Exercises/Regression%20Exercises/hour.csv')
+bike_data <- bike_data %>% select(-instant,-dteday) %>% mutate(temp=temp*41,atemp=atemp*51,hum=hum*100,windspeed=windspeed*67)
+```
+
+# Variables
+
+- **season**: Season (1 = spring, 2 = summer, 3 = fall, 4 = winter)
+- **yr**: Year (0 = 2011, 1 = 2012)
+- **mnth**: Month (1 to 12)
+- **hr**: Hour (0 to 23)
+- **holiday**: Whether the day is a holiday (1 = holiday, 0 = not a holiday)
+- **weekday**: Day of the week (0 = Sunday to 6 = Saturday)
+- **workingday**: Whether the day is neither a weekend nor a holiday (1 = working day, 0 = otherwise)
+- **weathersit**: Categorical variable describing the weather situation:
+  - 1: Clear, Few clouds, Partly cloudy
+  - 2: Mist + Cloudy, Mist + Broken clouds, Mist + Few clouds
+  - 3: Light Snow, Light Rain + Thunderstorm + Scattered clouds, Light Rain + Scattered clouds
+  - 4: Heavy Rain + Ice Pallets + Thunderstorm + Mist, Snow + Fog
+- **temp**: Normalized temperature in Celsius (divided by 41)
+- **atemp**: Normalized "feels like" temperature in Celsius (divided by 50)
+- **hum**: Normalized humidity (divided by 100)
+- **windspeed**: Normalized wind speed (divided by 67)
+- **casual**: Count of casual users (non-registered)
+- **registered**: Count of registered users
+- **cnt**: Total count of bike rentals (casual + registered)
+
+# Exercise 1:
+Suppose we are asked to consult this bike rental business on increasing their number of rentals. Let's quickly build a simple regression model to see how the weather impacts rentals. Build a regression that uses `cnt` as the response variable with `temp`, `atempt`, and `hum`, and `windspeed`. Which component of the weather seems to change bike rentals the most? Which change do we have the most confidence in?
+```{r}
+
+```
+
+# Exercise 2:
+Obviously, the weather isn't the only thing that matters. Let's look at some of the categorical variables we have here (`mnth`,`holiday`,`workingday`, `weathersit`). We can use categorical variables in our regressions but we need to turn them into factors. Do that for the 4 variables mentioned above and then create a regression which uses `cnt` as the response and then those 5 categorical variables as predictors.
+```{r}
+
+```
+
+# Exercise 3:
+Now let's combine our two regressions together but with an eye towards prediction. Run the cell below to make a training/test split.
+```{r}
+
+```
+Now create your regression with the training data (and all variables) then evaluate how it does on prediction.
+```{r}
+
+```
+
+#Exercise 4:
+Our regression needs to be evaluated further. Let's create a regression plot with `abline()`. Plot this as `cnt` and `temp`. Then plot your predicted values against the test values using the same variables. 
+```{r}
+
+```
+
+# Exercise 5:
+Lastly, let's suppose we want to evaluate how to increase the gap in casual to registered users. The company wants more registered users since their business model really needs that support. Using some combination of variables present in this data, identify what factor seem to matter most for reducing this value. Then given that, propose some type of business/marketing plan the firm could use to seize on that fact (i.e. holiday specials, green commuting campaign, seasonal pricing, etc.). Use your data analysis skills to take the insights we gain from our regression and apply them to an outcome.
+```{r}
+
+```
+
