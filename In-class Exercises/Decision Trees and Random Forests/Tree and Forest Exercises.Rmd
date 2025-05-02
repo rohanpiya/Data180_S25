@@ -1,0 +1,78 @@
+---
+title: "Decision Trees and Random Forest Exercises"
+output: html_document
+---
+
+```{r}
+data <- read.csv('Carlisle Weather Data.csv')
+library(tidyverse)
+library(tree)
+library(randomForest)
+data <- data %>% na.omit()
+```
+
+For this first set of exercises we'll be using the hourly weather history of Carlisle, stretching from  5:00 p.m. on 2/2 all the way to the current day. Additionally, we have a 16 day forecast. Our goal is to see if we can build a decision tree, linear regression, or random forest that can predict the next hour's weather based on the current hour Weather prediction is normally quite a computationally ardous task so if we can get a model that does ok for us, that would be great!
+
+# Exercise 1:
+Use the `tree` function to look build a simple decision tree. For now let's see if we can use the temperature variable and predict it with the previous period's (marked as `var_prev`) relative humidity, precipitation_prob, and cloud_cover. Once you have the model, go ahead and retrieve its summary table. Lastly, plot the tree and add its labels. Which variable seems to be most important?
+```{r}
+
+```
+
+# Exercise 2:
+Now let's see how regression does. Use the same variables but this time create a regression predicting temperature. Print the summary for this regression.
+```{r}
+
+```
+
+# Exercise 3:
+These models seem a bit suspect but let's evaluate them with some predictions. First, run the chunk below to split the data into a test and training set based upon the past data versus future data.
+```{r}
+data$time <- as.POSIXct(data$time, format="%Y-%m-%dT%H:%M", tz="UTC")
+cutoff_time <- as.POSIXct("2025-05-02 17:00", tz="UTC")
+
+training <- data[data$time <= cutoff_time, ]
+test  <- data[data$time > cutoff_time, ]
+training <- training %>% select(-time,-temperature_prev,-apparent_temp_prev)
+test <- test %>% select(-time,-temperature_prev,-apparent_temp_prev)
+```
+
+Now that we have a training test split. Create your decision tree to predict the temperature using all variables. Do the same with the regression. Compare both their predictions visually and their performance using MSE. Use temperature as the y axis and humidity as the x axis for your charts.
+```{r}
+
+```
+
+# Exercise 4:
+Now we bring out the big model with the random forest. Run a random forest model with the same setup we used in Exercise 3. Print the summary, create the visualization to evaluate predictions, and then calculate the MSE. How does the model compare? Let's do a BIG forest, make ntree=500
+```{r}
+set.seed(123)
+
+```
+
+# Exercise 5:
+Now you have may have caught that we did cheat a bit on this model construction. By cutting the prior period's temperature, we took out the single factor that has the most predictive power. Let's reintroduce it and see if our conclusion's hold up. Run the chunk below to recreate our training and test data but this time with the temperature_prev and apparent_temperature_prev variables.
+```{r}
+training <- data[data$time <= cutoff_time, ]
+test  <- data[data$time > cutoff_time, ]
+```
+
+With those recreated now let's recreate our 3 models from above, the decision tree, the linear regression, and the random forest. See how their new predictions do against one another and compare their performance visually and numerically.
+```{r}
+set.seed(123)
+
+```
+
+# Exercise 6
+As one final exercises, let's randomly split the data (as opposed to using a cutoff date). Let's see how that changes the results of our models. Run the chunk below to split the data into new training/test splits.
+```{r}
+set.seed(123)
+training <- data %>% slice_sample(prop=.8)
+test <- anti_join(data, training)
+```
+
+Now go ahead and rerun your results from above. Has the ideal model changed?
+```{r}
+
+```
+
+
