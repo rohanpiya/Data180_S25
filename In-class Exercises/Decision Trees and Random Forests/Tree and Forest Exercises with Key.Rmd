@@ -1,0 +1,167 @@
+---
+title: "Decision Trees and Random Forest Exercises"
+output: html_document
+---
+
+```{r}
+data <- read.csv('Carlisle Weather Data.csv')
+library(tidyverse)
+library(tree)
+library(randomForest)
+data <- data %>% na.omit()
+```
+
+For this first set of exercises we'll be using the hourly weather history of Carlisle, stretching from  4:00 p.m. on 2/2 all the way to the current day. Additionally, we have a 16 day forecast. Our goal is to see if we can build a decision tree, linear regression, or random forest that can be as good as the weather forecasters. These normally take whole super computers to simulate but let's find out how our little models can do. Basically, we will use the prior hour's weather to predict the next hour's weather.
+
+# Exercise 1:
+Use the `tree` function to look build a simple decision tree. For now let's see if we can use the temperature variable and predict it with the previous period's (marked as `var_prev`) relative humidity, precipitation_prob, and cloud_cover. Once you have the model, go ahead and retrieve its summary table. Lastly, plot the tree and add its labels. Which variable seems to be most important?
+```{r}
+model <- tree(temperature~relative_humidity_prev+precipitation_prob_prev+cloud_cover_perc_prev,data=data)
+summary(model)
+plot(model)
+text(model)
+```
+
+# Exercise 2:
+Now let's see how regression does. Use the same variables but this time create a regression predicting temperature. Print the summary for this regression.
+```{r}
+model <- lm(temperature~relative_humidity_prev+precipitation_prob_prev+cloud_cover_perc_prev,data=data)
+summary(model)
+```
+
+# Exercise 3:
+These models seem a bit suspect but let's evaluate them with some predictions. First, the cell below to split the data into a test and training set based upon the past data versus future data.
+```{r}
+data$time <- as.POSIXct(data$time, format="%Y-%m-%dT%H:%M", tz="UTC")
+cutoff_time <- as.POSIXct("2025-05-02 17:00", tz="UTC")
+
+training <- data[data$time <= cutoff_time, ]
+test  <- data[data$time > cutoff_time, ]
+training <- training %>% select(-time,-temperature_prev,-apparent_temp_prev)
+test <- test %>% select(-time,-temperature_prev,-apparent_temp_prev)
+```
+
+Now that we have a training test split. Create your decision tree to predict the temperature using all variables. Do the same with the regression. Compare both their predictions visually and their performance using MSE. Use temperature as the y axis and humidity as the x axis for your charts.
+```{r}
+tree_model <- tree(temperature~.,data=training)
+reg_model <- lm(temperature~.,data=training)
+
+pred_tree <- predict(tree_model,newdata=test)
+pred_reg <- predict(reg_model,newdata=test)
+
+plot(test$relative_humidity,test$temperature,col='blue')
+par(new=T)
+plot(test$relative_humidity,pred_tree,col='red',ann=F,axes=F)
+
+plot(test$relative_humidity,test$temperature,col='blue')
+par(new=T)
+plot(test$relative_humidity,pred_reg,col='red',ann=F,axes=F)
+
+mse_reg <- sum((test$temperature - pred_reg)^2)/length(test)
+mse_tree <- sum((test$temperature - pred_tree)^2)/length(test)
+
+mse_reg
+mse_tree
+```
+
+# Exercise 4:
+Now we bring out the big model with the random forest. Run a random forest model with the same setup we used in Exercise 3. Print the summary, create the visualization to evaluate predictions, and then calculate the MSE. How does the model compare. Let's do a BIG forest, make ntree=500
+```{r}
+set.seed(123)
+forest_model <- randomForest(temperature~., data=training,ntree=500)
+print(forest_model)
+pred_forest <- predict(forest_model, newdata=test)
+
+plot(test$relative_humidity,test$temperature,col='blue')
+par(new=T)
+plot(test$relative_humidity,pred_forest,col='red',ann=F,axes=F)
+
+mse_reg <- sum((test$temperature - pred_reg)^2)/length(test)
+mse_tree <- sum((test$temperature - pred_tree)^2)/length(test)
+mse_forest <- sum((test$temperature - pred_forest)^2)/length(test)
+
+mse_reg
+mse_tree
+mse_forest
+
+```
+
+# Exercise 5:
+Now you have may have caught that we did cheat a bit on this model construction. By cutting the prior period's temperature, we took out the single factor that has the most predictive power. Let's reintroduce it and see if our conclusion's hold up. Run the chunk below to recreate our training and test data but this time with the temperature_prev and apparent_temperature_prev variables.
+```{r}
+training <- data[data$time <= cutoff_time, ]
+test  <- data[data$time > cutoff_time, ]
+```
+
+With those recreated now let's recreate our 3 models from above, the decision tree, the linear regression, and the random forest. See how their new predictions do against one another and compare their performance visually and numerically.
+```{r}
+set.seed(123)
+tree_model <- tree(temperature~.,data=training)
+reg_model <- lm(temperature~.,data=training)
+forest_model <- randomForest(temperature~., data=training,ntree=500)
+
+pred_tree <- predict(tree_model,newdata=test)
+pred_reg <- predict(reg_model,newdata=test)
+pred_forest <- predict(forest_model, newdata=test)
+
+plot(test$relative_humidity,test$temperature,col='blue')
+par(new=T)
+plot(test$relative_humidity,pred_tree,col='red',ann=F,axes=F)
+
+plot(test$relative_humidity,test$temperature,col='blue')
+par(new=T)
+plot(test$relative_humidity,pred_reg,col='red',ann=F,axes=F)
+
+plot(test$relative_humidity,test$temperature,col='blue')
+par(new=T)
+plot(test$relative_humidity,pred_forest,col='red',ann=F,axes=F)
+
+mse_reg <- sum((test$temperature - pred_reg)^2)/length(test)
+mse_tree <- sum((test$temperature - pred_tree)^2)/length(test)
+mse_forest <- sum((test$temperature - pred_forest)^2)/length(test)
+
+mse_reg
+mse_tree
+mse_forest
+```
+
+# Exercise 6
+As one final exercises, let's randomly split the data (as opposed to using a cutoff date). Let's see how that changes the results of our models. Run the chunk below to split the data into new training/test splits.
+```{r}
+set.seed(123)
+training <- data %>% slice_sample(prop=.8)
+test <- anti_join(data, training)
+```
+
+Now go ahead and rerun your results from above. Has the ideal model changed?
+```{r}
+tree_model <- tree(temperature~.,data=training)
+reg_model <- lm(temperature~.,data=training)
+forest_model <- randomForest(temperature~., data=training,ntree=500)
+
+pred_tree <- predict(tree_model,newdata=test)
+pred_reg <- predict(reg_model,newdata=test)
+pred_forest <- predict(forest_model, newdata=test)
+
+plot(test$relative_humidity,test$temperature,col='blue')
+par(new=T)
+plot(test$relative_humidity,pred_tree,col='red',ann=F,axes=F)
+
+plot(test$relative_humidity,test$temperature,col='blue')
+par(new=T)
+plot(test$relative_humidity,pred_reg,col='red',ann=F,axes=F)
+
+plot(test$relative_humidity,test$temperature,col='blue')
+par(new=T)
+plot(test$relative_humidity,pred_forest,col='red',ann=F,axes=F)
+
+mse_reg <- sum((test$temperature - pred_reg)^2)/length(test)
+mse_tree <- sum((test$temperature - pred_tree)^2)/length(test)
+mse_forest <- sum((test$temperature - pred_forest)^2)/length(test)
+
+mse_reg
+mse_tree
+mse_forest
+```
+
+
