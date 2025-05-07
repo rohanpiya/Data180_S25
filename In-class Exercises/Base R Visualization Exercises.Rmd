@@ -1,13 +1,18 @@
 ---
 title: "Base R Visualizations and Summary Statistics Exercises"
-author: "Your Name"
+author: "Rohan Piya"
 date: "`r Sys.Date()`"
 output: html_document
 ---
 
 ```{r}
 library(MASS)
+#install.packages("ggplot2")
 library(ggplot2)
+data(iris)
+data(diamonds)
+data(Cars93)
+
 ```
 
 # Exercise 1: Frequency Distribution with Categorical Variables
@@ -15,19 +20,19 @@ library(ggplot2)
 ## 1.1 Frequency Distribution for Iris Species
 
 ```{r}
-
+table(iris$Species)
 ```
 
 ## 1.2 Frequency Distribution for Car Types (Cars93)
 
 ```{r}
-
+table(Cars93$Type)
 ```
 
 ## 1.3 Frequency Distribution for Diamond Cuts
 
 ```{r}
-
+table(diamonds$cut)
 ```
 
 # Exercise 2: Relative Frequency Distributions
@@ -35,19 +40,19 @@ library(ggplot2)
 ## 2.1 Relative Frequency for Iris Species
 
 ```{r}
-
+table(iris$Species)/nrow(iris)
 ```
 
 ## 2.2 Relative Frequency for Car Types
 
 ```{r}
-
+table(Cars93$Type)/nrow(Cars93)
 ```
 
 ## 2.3 Relative Frequency for Diamond Cuts
 
 ```{r}
-
+table(diamonds$cut)/nrow(diamonds)
 ```
 
 # Exercise 3: Barplots
@@ -55,13 +60,13 @@ library(ggplot2)
 ## 3.1 Basic Barplot for Iris Species
 
 ```{r}
-
+barplot(table(iris$Species), ylab = "Frequency", col = c(1,2,3))
 ```
 
 ## 3.2 Side-by-Side Barplot for Car Types in Cars93
 
 ```{r}
-
+barplot(table(Cars93$Type, Cars93$DriveTrain)/nrow(Cars93), beside = T, ylab = "Relative Frequency", xlab = "Types", col = c(11,5,8,6,4,0), cex.axis = 1.2)
 ```
 
 # Exercise 4: Pie Charts
@@ -69,7 +74,7 @@ library(ggplot2)
 ## 4.1 Pie Chart for Diamond Cuts
 
 ```{r}
-
+pie(table(diamonds$cut), col = c(1,10,20, 45))
 ```
 
 # Exercise 5: Histograms
@@ -77,7 +82,7 @@ library(ggplot2)
 ## 5.1 Histogram for Iris Sepal Length
 
 ```{r}
-
+hist(iris$Sepal.Length, breaks = round(nrow(iris)^0.5), col = "lightblue", xlab = "Sepal Length",cex.lab = 1.1, main = "Histogram of Iris Sepal Length", col.main = "lightgreen", cex.main = 1.5)
 ```
 
 # Exercise 6: Calculating Mean, Median, and Mode
@@ -97,6 +102,7 @@ data(txhousing)
 
 Now, you work for a group analyzing housing sales in Texas. They provide you the data above to look into things. They would like to have an idea of the distribution of average sales prices across MLS's and in particular if sales are being driven by outliers. Conduct some brief analysis validating or assuaging their concerns. In particular they want this for the most recent year of data. If you make a chart, be sure to make it readable for them.
 ```{r}
-
+newTxHousing = txhousing[txhousing$year == 2015,]
+newTxHousing
 ```
 
