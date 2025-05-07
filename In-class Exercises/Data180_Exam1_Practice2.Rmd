@@ -1,0 +1,140 @@
+---
+title: "R Practice Exam Problems 2"
+subtitle: "Spring 2025"
+output: html_document
+---
+
+## Practice Questions
+
+```{r}
+library(datasets)
+library(ggplot2)
+data(airquality)
+airquality=na.omit(airquality)
+data(ToothGrowth)
+```
+
+## Problem 1 
+Using the built-in `airquality` dataset, perform the following tasks:
+
+   a) Filter for rows where `Ozone` levels are greater than 50 and return only the `Ozone` and `Temp` columns.
+   
+```{r}
+ 
+```
+   
+   b) Filter the dataset for only July and `Wind` speeds above 9. Return the Ozone column.
+   
+```{r}
+   
+```
+   
+   c) Create a new column `WCI` that converts the `Temp` and `Wind` columns into the Wind Chill Index. This formula is as follows:
+   35.74+.6215T-35.75(V^.16)+.4275T(V^.16), where T is the temperature and V is the wind speed.
+   
+```{r}
+   
+```
+   d) Create a scatterplot using ggplot to  visualize the relationship between `Wind` and your new `WCI` column. Label the axes and describe the relationship.
+   
+```{r}
+   
+```
+
+## Problem 2 
+Perform the following vector-based tasks:
+   
+   a) Create a vector named `multiples_of_four` that contains the first 10 multiples of 4 using an efficient method.
+   
+```{r}
+   
+```
+   
+   b) Loop and print out every item from this vector.
+   
+```{r}
+   
+```
+   
+   c) Compute the sum of all elements in `multiples_of_four`.
+   
+```{r}
+   
+```
+
+## Problem 3 
+Build the following function and implement it in the following tasks:
+   
+   a) Write a function named `convert_to_celcius()` that takes a temperature in Fahrenheit as an argument and returns the equivalent Celsius temperature using the formula: (5/9)*(T-32), where T is the temperature
+   
+```{r}
+   
+```
+   
+   b) Modify `convert_to_celcius()` to handle a vector of Fahrenheit values as input and return a vector of Celsius values.
+   
+```{r}
+   
+```
+   
+   c) Use `convert_to_celcius()` to convert the `Temp` column from the `airquality` dataset into Celsius. Make a new column `Temp_C`.
+   
+```{r}
+   
+```
+
+## Problem 4 
+Using the `ToothGrowth` dataset, complete the following visualizations using Base R AND ggplot:
+
+   a) Create a barplot showing the number of observations for each `dose` level.
+   
+```{r}
+   
+```
+   
+   b) Create a histogram comparing `len` distributions across the `dose` levels. Your answer should have multiple histograms. Do this only in ggplot.
+   
+```{r}
+   
+```
+
+## Short Answer
+
+1. What is the key difference between continuous and discrete variables?
+
+2. If a variable `income_level` is coded as low = 1, medium = 2, high = 3, what type of variable is `income_level`?
+
+3. If a variable `hot_days` stores a numeric value measured as the count of days which reached a temperature above 90 degrees in a particular month, what type of variable is `hot_days`?
+
+4. When a distribution has relatively equal sized tails, we call it what?
+
+5. When you knit an R markdown file as we have done in homework. What is the resulting file type?
+
+   a) `.Rmd`  
+   b) `.html`  
+   c) `.git`  
+   d) `.csv`  
+
+6. What symbol do we use the specify greater than or equal to when filtering a dataframe?
+
+7. What function in R returns the first few rows of a dataframe? Implement it on an object called `dataset`.
+
+8. Write a single line of R code that returns the following sequence: (3, 6, 9, 12, 15, 18). Do not simply write out `c(3,6,9,12,15,18)`.
+
+```{r}
+   
+```
+
+9. What is a resistant statistic? Give one example.
+
+10. A dataset has two distinct peaks in its distribution. What is this type of distribution called?
+
+11. What are mean, median, and mode attempting to measure?
+
+12. Why is variance less useful than standard deviation for analysis?
+
+13. What is the primary difference between a statistic and a parameter in statistics?
+
+14. Can a dataset be considered both a population and a sample? Explain with an example.
+
+15. What is the purpose of `geom_smooth()` in `ggplot2`? How does it enhance a scatterplot?

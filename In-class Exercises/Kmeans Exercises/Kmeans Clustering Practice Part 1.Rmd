@@ -1,0 +1,36 @@
+---
+title: "Kmeans Clustering Practice Part 1"
+output: html_document
+date: "2025-03-24"
+---
+
+Today, we're going to do some basic practice with kmeans. Run the chunk below to load the `tidyverse` and read in some sample data.
+
+```{r}
+library(tidyverse)
+df = read.csv("https://raw.githubusercontent.com/kesslerz-dickinson/Data180_Fall24/refs/heads/main/data/cluster_data.csv")
+```
+
+# Exercise 1:
+Get a feel for the data. Create a visualization to see if the data are a good candidate for clustering.
+```{r}
+
+```
+
+# Exercise 2:
+Let's run the kmeans clustering algorithm with `k=3` first. Be sure to save the output to a variable. Then return the centers and include them in a visualization like the one above. Let's also color the original observations by the cluster they are a member of right now.
+```{r}
+
+```
+# Exercise 3:
+This fit is clearly pretty bad (Note we can see how bad by looking at `result$tot.withinss`). Let's repeat what we did in Exercise 2 but with 5 clusters. Run this code a few time. What is happening? 
+```{r}
+
+```
+
+# Exercise 4: 
+Let's try to find a better fit using the `nstart` parameter in the `kmeans` function. Set `nstart=50` and then recreate the outputs from above again. Now what happens when you run the chunk a few times?"
+```{r}
+
+```
+

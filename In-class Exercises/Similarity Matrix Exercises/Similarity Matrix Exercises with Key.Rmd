@@ -1,0 +1,113 @@
+---
+title: "Similarity Matrix Exercises with Key"
+output: html_document
+
+---
+
+```{r}
+library(tidyverse)
+#install.packages('cluster') Remove the hashtag in this line to install package if needed.
+library(cluster)
+```
+
+Today let's start with a dataset covering various traits about Data Sciences positions from 2022.
+```{r}
+data <- read.csv('Data Science Positions.csv')
+```
+
+Here is some info on these variables:
+
+Designation: Position Name
+Status: Full time = 1, Part Time = 0
+Location: United States = 0, Canada = 1
+Remote_work: Fully Remote = 1, Hybrid = 2, In-person = 3
+ExpLevel: Entry Level = 1, Mid-level = 2, Senior level = 3
+FirmSize: Small = 1, Medium = 2, Large = 3
+Salary_USD: Position Salary in Dollars
+
+To be begin, let's do a little pre-processing. For now, let's remove `Salary_USD` and just deal with the categorical variables. We also need to do something with the `Designation` column since as a title it won't work with our method. Convert the column to a factor with `mutate`. How many positions are present?
+```{r}
+data_cat <- data %>% select(-Salary_USD) %>% mutate(Designation=as.factor(Designation))
+levels(data_cat$Designation)
+```
+
+# Exercise 1
+To start with analysis, let's look at just our binary variables and calculate a similarity matrix based upon the matching coefficient without any of our fancy functions. Create a pipeline which choose the relevant columns (there should be only 2) and calculate a distance matrix using `dist(..,method='manhattan')`. Then use 1 minus that matrix divided by 2 to calculate similarity.
+```{r}
+sim_manhattan <- data_cat %>% select(Status, Location) %>% dist(method='manhattan')
+sim_manhattan <- 1-as.matrix(sim_manhattan)/2
+sim_manhattan
+```
+
+#Exercise 2
+As you can see, with only 2 dimensions this isn't particularly useful. So let's go back to the original categorical data with 6 dimensions and calculate similarity. This time, we have two think through a couple more items. Of the columns which 0-0 matches ought to matter. Once you have made your decision, use the `daisy` function from cluster to recreate our similarity matrix with 6 variables.
+```{r}
+sim_daisy <- data_cat %>% daisy(type=list(symm=c(2,3))) %>% as.matrix()
+sim_daisy <- 1-sim_daisy
+sim_daisy
+```
+
+#Exercise 3
+This is a little better. We're starting to get some clearer differences, but let's include our last variable, the continuous `Salary_USD`. Recalculate your similarity matrix but this time for the full dataset. Again, make sure it is a similarity matrix. Remember our `Designation` column isn't formatted as a factor in the full dataset. This needs to be adjusted.
+```{r}
+data <- data %>% mutate(Designation = as.factor(Designation))
+sim_full <- data %>% daisy(type=list(symm=c(2,3))) %>% as.matrix()
+sim_full <- 1- sim_full
+sim_full
+```
+
+Congratulations, you have now completed your first full mixed data analysis. However, we're not done. Let's do some clustering here with our mixed data types.
+
+# Exercise 4
+The most apt form for this stuff is hierarchical clustering with complete linkage. So let's convert our similarity matrix back into a dissimilarity matrix (how do we do this?). Then perform some clustering and plot the dendrogram.
+```{r}
+dis_full = 1-sim_full
+clust1 = hclust(as.dist(dis_full),method='complete')
+
+plot(clust1,labels=FALSE)
+```
+
+#Exercise 5
+Let's extract memberships for 6 clusters. Use the cutree function and append it to our original dataframe. Try and use some of our grouping and aggregation functions to detect any meaningful differences between these clusters. Remember when we are looking at categories, things like the mean and median don't make a whole of lot of sense. Instead we should look at the count the relative proportion. Then create a set of histograms looking at the distribution of salaries by cluster. Note this is not asking for an overlaid histogram.
+```{r}
+library(scales)
+clust_mem = cutree(clust1,k=6)
+data$cluster = clust_mem
+
+sum_results = data %>% group_by(cluster,ExpLevel) %>% summarize(count=n())
+sum_results
+
+ggplot(data,aes(Salary_USD))+
+  geom_histogram()+
+  facet_wrap(~cluster)+
+  scale_x_continuous(labels = label_comma())
+```
+
+
+#Exercise 6: Analysis Question
+Let's move to a more complex example. The following data come from The Big Cities Health Coalition who do some great work aggregating health data along a variety of metrics across time (Do give them a visit online.) In the chunk below, you'll load a dataset containing information on a variety of demographic groups across a 34 major cities in the US. In addition, there are about 19 health metrics which are tracked here. Now I've replaced NA values already with 0's (not a great practice by the way but I prefer this to dropping whole rows for exercise purposes). However, you still need to do the remaining preprocessing.
+
+```{r}
+data_health <- read.csv('CityHealthData.csv')
+```
+
+Form groups and take what you have learned about Mixed Data Analysis to evaluate the similarity of these cities and demographic groups based on their health metrics. Then run a relevant clustering algorithm and analyze your clusters members. Extract 2 statistics you find interesting about the clusters, one based on the demographic/geographic data and the other based on the health metrics.
+
+```{r}
+data_health = data_health %>% mutate(geo_label_citystate=as.factor(geo_label_citystate),strata_race_label=as.factor(strata_race_label),strata_sex_label=as.factor(strata_sex_label))
+
+dis_health = data_health %>% daisy(,type=list(symm=c(3))) %>% as.matrix()
+sim_health = 1-dis_health
+
+clust_health = hclust(as.dist(dis_health),method='complete')
+plot(clust_health,labels=F)
+
+clusters <- cutree(clust_health,k=6)
+
+data_health$cluster = clusters
+
+health_results = data_health %>% group_by(cluster) %>% summarize(mean_d1 = mean(All.Cancer.Deaths),mean_L = mean(Life.Expectancy),mean_d2 = mean(Homicides), mean_d3=mean(Drug.Overdose.Deaths))
+health_results
+
+```
+

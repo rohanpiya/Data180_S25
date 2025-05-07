@@ -1,0 +1,144 @@
+---
+title: "ggplot Introduction Exercises"
+author: "Your Name"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r}
+library(MASS)
+library(ggplot2)
+data(iris)
+data(diamonds)
+data(Cars93)
+data(txhousing)
+```
+
+# Exercise 1: Barplots
+
+## 1.1 Basic Barplot for Iris Species
+
+```{r}
+barplot(table(iris$Species), 
+        main = "Frequency of Iris Species", 
+        xlab = "Species", 
+        ylab = "Frequency", 
+        col = "lightblue")
+
+```
+
+## Do the same with ggplot:
+```{r}
+ggplot(iris,aes(x=Species))+
+        geom_bar(fill=2)+
+        labs(title="Frequency of Iris Species",x="Species",y='Frequency')
+
+```
+
+
+
+## 1.2 Side-by-Side Barplot for Car Types in Cars93
+
+```{r}
+cars93_table <- table(Cars93$Type, Cars93$DriveTrain)
+cars93_table
+
+barplot(cars93_table, 
+        beside = T, 
+        main = "Car Types by DriveTrain", 
+        xlab = "Car Type", 
+        ylab = "Frequency", 
+        col = 1:6)
+
+```
+## Do the same with ggplot:
+```{r}
+ggplot(Cars93,aes(x=Type,fill=DriveTrain))+
+        geom_bar(position='dodge')+
+        labs(title='Cars Type by Drive Train',x='Car Type',y='Frequency')
+
+```
+# Exercise 2: Histograms
+
+## 2.1 Histogram for Iris Sepal Length
+
+```{r}
+hist(iris$Sepal.Length, 
+     main = "Histogram of Iris Sepal Length", 
+     xlab = "Sepal Length", 
+     col = "lightgreen", 
+     border = "white")
+```
+## Do the same with ggplot:
+```{r}
+ggplot(iris,aes(x=Sepal.Length))+
+        geom_histogram(fill=5,bins=round(sqrt(nrow(Cars93))))
+```
+# Exercise 3: Scatterplot
+
+## 3.1 Scatterplot of diamonds carat and price
+
+```{r}
+plot(diamonds$price,diamonds$carat,xlab='Price',ylab='Carat')
+```
+## Do the same with ggplot but add a smoothing function (method as lm). Also try it without a method included and change the `linetype` to dotted
+```{r}
+ggplot(diamonds,aes(y=price,x=carat))+
+        geom_point(shape=1)+
+        geom_smooth(method='lm',color=2,se=FALSE,linetype=3)
+
+ggplot(diamonds,aes(y=price,x=carat))+
+        geom_point(shape=1)+
+        geom_smooth(color=3,se=FALSE,linetype=3)
+        
+```
+# Exercise 4: Advanced ggplot
+
+## Exercise 4.1 Iris Scatterplot (x is Sepal.Length, y is Sepal.Width) with Point Color determined by Species. Do the same for point shape. How about both?
+```{r}
+ggplot(iris,aes(Sepal.Length,Sepal.Width,shape=Species,color=Species))+
+  geom_point()
+```
+## Exercise 4.2 Cars93 Histogram using Price for every cyclinder (facet_wrap)
+```{r}
+ggplot(Cars93,aes(x=Price))+
+        geom_histogram(fill=1)+
+        facet_wrap(~Cylinders)
+```
+## Exercise 4.3 Cars93 Histrogram using Horsepower for every type and Drive Train (facet_grid)
+```{r}
+ggplot(Cars93,aes(x=Horsepower))+
+        geom_histogram()+
+        facet_grid(rows=vars(Type),cols=vars(DriveTrain))
+```
+## Exercise 4.4 Scatterplot with Diamonds between depth and table where color is determined by price. Additionally break charts out by cut.
+```{r}
+ggplot(diamonds,aes(x=depth,y=table,color=price))+
+        geom_point()+
+        facet_wrap(~cut)
+```
+## Exercise 4.5 Movement of median price over time in txhousing. Color equal to city.
+```{r}
+ggplot(txhousing,aes(y=median,x=date,color=city))+
+        geom_line(alpha=.5,show.legend=F)
+```
+## Exercise 4.6 Recreate the Mean v Median Scatterplot from the Abstract Question. Try to identify if any particular cities have an outlier problem. Visualize this in some way.
+```{r}
+txhousing$mean = txhousing$volume/txhousing$sales
+
+data = txhousing[txhousing$year==2015,]
+
+ggplot(data,aes(median,mean,color=city))+
+        geom_point(alpha=.5,show.legend=FALSE)+
+        geom_abline()
+```
+## Exercise 4.7 Now do this for all years, not just 2015
+```{r}
+ggplot(txhousing,aes(median,mean,color=city))+
+        geom_point(show.legend=F,alpha=.5)+
+        facet_wrap(~as.factor(year))
+```
+
+
+
+

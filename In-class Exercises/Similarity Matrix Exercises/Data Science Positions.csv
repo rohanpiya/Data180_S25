@@ -1,0 +1,240 @@
+"Designation","Status","Location","Remote_Work","ExpLevel","FirmSize","Salary_USD"
+"Data Engineer",1,1,1,3,2,128903
+"Data Analyst",1,1,1,3,2,147999
+"Data Analyst",1,1,1,3,2,115153
+"Data Scientist",1,1,3,2,2,124128
+"Data Scientist",1,1,3,2,2,85935
+"Data Engineer",1,1,1,2,2,162322
+"Data Engineer",1,1,1,2,2,143225
+"Data Analyst",1,1,1,3,2,97489
+"Data Analyst",1,1,1,3,2,81065
+"Data Scientist",1,1,1,3,2,130449
+"Data Scientist",1,1,1,3,2,94872
+"Data Scientist",1,1,1,3,2,139406
+"Data Scientist",1,1,1,3,2,117445
+"Data Analyst",1,1,3,3,2,94529
+"Data Analyst",1,1,3,3,2,110761
+"Data Analyst",1,1,3,2,2,101461
+"Data Analyst",1,1,3,2,2,120787
+"Data Engineer",1,1,1,3,2,231070
+"Data Engineer",1,1,1,3,2,190967
+"Data Scientist",1,1,1,3,2,157758
+"Data Scientist",1,1,1,3,2,114733
+"Data Analyst",1,1,1,3,2,86241
+"Data Engineer",1,1,3,3,2,173722
+"Data Engineer",1,1,3,3,2,126344
+"Data Engineer",1,1,3,3,2,210169
+"Data Engineer",1,1,3,3,2,152850
+"Data Scientist",1,1,3,3,3,171870
+"Data Scientist",1,1,3,3,3,114580
+"Data Analyst",1,1,1,3,2,118581
+"Data Analyst",1,1,1,3,2,124128
+"Data Analyst",1,1,1,3,2,105032
+"Data Analyst",1,1,1,3,2,162322
+"Data Analyst",1,1,1,2,2,110283
+"Data Analyst",1,1,1,3,2,107801
+"Data Analyst",1,1,1,3,2,86241
+"Data Analyst",1,1,1,3,2,107801
+"Data Analyst",1,1,1,3,2,86241
+"Data Engineer",1,1,1,3,2,157930
+"Data Engineer",1,1,1,3,2,126344
+"Data Analyst",1,1,1,2,2,159457
+"Data Engineer",1,1,1,3,2,232884
+"Data Analyst",1,1,1,3,2,130430
+"Data Analyst",1,1,1,3,2,104344
+"Data Engineer",1,1,1,3,2,123054
+"Data Engineer",1,1,1,3,2,89468
+"Head of Data Science",1,1,1,3,2,213883
+"Head of Data Science",1,1,1,3,2,160293
+"Analytics Engineer",1,1,1,3,2,167096
+"Data Engineer",1,1,1,3,2,149527
+"Data Engineer",1,1,3,3,2,103886
+"Data Scientist",1,1,3,3,2,91234
+"Data Engineer",1,1,3,3,3,107896
+"Data Analyst",1,1,1,3,2,128903
+"Data Science Manager",1,1,1,3,2,154055
+"Data Science Manager",1,1,1,3,2,130947
+"Data Scientist",1,1,1,3,2,159457
+"Data Scientist",1,1,1,3,2,117445
+"Data Scientist",1,1,3,3,2,143225
+"Data Scientist",1,1,1,3,2,201947
+"Data Architect",1,0,1,3,2,183710
+"Data Architect",1,0,1,3,2,86603
+"Data Analyst",1,0,1,3,2,124128
+"Data Analyst",1,0,1,3,2,58531
+"Data Analyst",1,0,1,3,2,124128
+"Data Analyst",1,0,1,3,2,58531
+"Data Engineer",1,1,3,3,3,152773
+"Data Scientist",1,1,1,3,2,132340
+"Data Engineer",1,1,3,3,2,129857
+"Data Analyst",1,1,3,2,1,55380
+"Analytics Engineer",1,1,1,3,2,128903
+"Data Scientist",1,1,1,3,2,162322
+"Data Scientist",1,1,1,3,2,117445
+"Machine Learning Engineer",1,1,3,3,2,181084
+"Machine Learning Engineer",1,1,3,3,2,157544
+"Lead Data Engineer",1,0,1,3,1,112849
+"Data Analyst",1,1,3,3,2,126038
+"Data Engineer",1,1,1,3,2,157930
+"Data Architect",1,1,1,3,2,199345
+"Data Architect",1,1,1,3,2,141124
+"Data Engineer",1,1,1,3,2,130807
+"Data Engineer",1,1,1,3,2,96982
+"Data Analyst",1,1,1,3,2,123054
+"Data Analyst",1,1,1,3,2,89468
+"Data Engineer",1,1,1,3,2,126344
+"Data Analyst",1,1,3,3,2,156593
+"Data Engineer",1,1,1,3,2,147999
+"AI Scientist",1,1,3,2,2,114580
+"Data Analyst",1,1,1,3,2,107801
+"Data Analyst",1,1,1,3,2,86241
+"Data Analytics Manager",1,1,1,3,2,138451
+"Data Analytics Manager",1,1,1,3,2,100640
+"Data Scientist",1,1,1,3,3,205576
+"Data Scientist",1,1,1,3,3,151055
+"Data Engineer",1,1,1,3,3,199656
+"Data Engineer",1,1,1,3,3,147617
+"Data Analyst",1,1,3,3,2,110698
+"Data Analyst",1,1,3,3,2,77977
+"Data Engineer",1,1,1,3,2,167096
+"Data Analyst",1,1,3,2,1,55380
+"Data Engineer",1,1,1,3,3,175308
+"Data Scientist",1,1,1,3,2,171870
+"Data Scientist",1,1,1,3,2,248257
+"Data Engineer",1,1,3,2,2,61014
+"Machine Learning Scientist",1,1,1,2,3,152773
+"Machine Learning Scientist",1,1,1,2,3,107228
+"Data Science Manager",1,1,1,2,2,230115
+"Data Science Manager",1,1,1,2,2,151819
+"Data Scientist",1,1,3,3,2,171870
+"Data Scientist",1,1,3,3,2,76387
+"Data Engineer",1,1,3,2,2,79156
+"Data Engineer",1,1,1,3,3,96247
+"Data Scientist",1,1,3,3,3,134059
+"Machine Learning Engineer",1,1,3,3,2,181084
+"Machine Learning Engineer",1,1,3,3,2,157544
+"Data Scientist",1,1,3,3,3,205576
+"Data Engineer",1,1,1,3,3,199656
+"Data Engineer",1,1,1,3,3,147617
+"Data Engineer",1,1,1,3,2,171870
+"Data Engineer",1,1,1,3,2,76387
+"Machine Learning Developer",1,0,1,2,2,75232
+"Director of Data Science",1,0,2,3,3,188082
+"Machine Learning Engineer",1,1,1,2,1,114580
+"Computer Vision Engineer",1,1,3,1,2,119354
+"NLP Engineer",1,1,2,2,3,35554
+"Data Engineer",1,1,1,3,2,100258
+"Financial Data Analyst",1,1,2,1,3,95483
+"Data Engineer",1,1,1,1,2,114580
+"Research Scientist",1,1,2,3,3,137496
+"Data Scientist",1,1,1,3,2,100153
+"Data Engineer",1,1,1,3,2,95483
+"Data Scientist",1,1,1,3,2,133677
+"Data Analyst",1,1,1,2,2,128903
+"Data Analyst",1,1,1,2,2,47742
+"Data Scientist",1,1,1,3,2,210063
+"Data Scientist",1,1,1,3,2,133677
+"Data Scientist",1,1,1,3,2,176740
+"Machine Learning Engineer",1,1,1,3,2,210063
+"Data Scientist",1,1,1,2,2,190967
+"Data Scientist",1,1,1,2,2,114580
+"Data Engineer",1,1,1,3,2,309366
+"Data Engineer",1,1,1,3,2,206244
+"Data Engineer",1,1,1,3,2,200515
+"Machine Learning Engineer",1,1,1,3,2,114580
+"Data Scientist",1,1,1,3,2,219612
+"Data Scientist",0,0,1,2,2,95483
+"Principal Data Analyst",1,0,1,2,1,71613
+"Machine Learning Developer",1,0,1,3,2,75232
+"Machine Learning Scientist",1,1,2,2,2,146090
+"Data Scientist",1,1,1,3,2,157548
+"Data Scientist",1,0,1,1,3,50029
+"Data Engineer",1,1,1,3,2,109806
+"Research Scientist",1,1,1,1,3,114580
+"Applied Data Scientist",1,1,1,2,3,149909
+"Business Data Analyst",1,0,2,2,3,67709
+"Data Engineer",1,1,1,1,1,62064
+"Data Science Manager",1,1,1,3,2,145612
+"Applied Data Scientist",1,1,1,3,3,362837
+"Data Scientist",1,0,1,2,2,66204
+"Data Analytics Lead",1,1,1,3,3,386708
+"Data Scientist",1,1,1,2,3,128903
+"Applied Data Scientist",1,1,1,3,3,169006
+"Data Scientist",1,1,1,2,2,74477
+"Data Analyst",1,1,1,3,2,128903
+"Data Analyst",1,1,1,3,2,95483
+"Data Analyst",1,1,1,3,2,86241
+"Data Analyst",1,0,3,2,2,81161
+"Data Analyst",1,0,3,2,2,71613
+"Machine Learning Engineer",1,1,1,3,2,204334
+"Machine Learning Engineer",1,1,1,3,2,183901
+"Data Architect",1,1,1,3,2,254368
+"Data Architect",1,1,1,3,2,203494
+"Data Analyst",1,1,1,3,2,107801
+"Data Engineer",1,1,1,3,2,147999
+"Data Scientist",1,1,3,2,2,134918
+"Data Scientist",1,1,3,2,2,97489
+"Data Analyst",1,1,1,3,2,110698
+"Data Analyst",1,1,1,3,2,77977
+"Data Engineer",1,1,3,2,2,197363
+"Data Engineer",1,1,3,2,2,94624
+"Data Engineer",1,1,1,3,2,124128
+"Data Engineer",1,1,1,3,2,109806
+"Data Engineer",1,1,1,3,2,105509
+"Data Engineer",1,1,1,3,2,124128
+"Data Analyst",1,1,1,3,2,94576
+"Data Engineer",1,1,1,3,2,152773
+"Data Scientist",1,1,3,3,3,196027
+"Data Scientist",1,1,3,3,3,134059
+"Data Scientist",1,1,1,3,2,168051
+"Data Scientist",1,1,1,3,2,137496
+"Data Engineer",1,1,1,3,2,191062
+"Data Engineer",1,1,1,3,2,152773
+"Data Engineer",1,1,1,3,2,138451
+"Data Engineer",1,1,3,3,2,67316
+"Data Scientist",1,1,3,3,2,196027
+"Data Scientist",1,1,3,3,2,134059
+"Analytics Engineer",1,1,3,3,2,196027
+"Analytics Engineer",1,1,3,3,2,176358
+"Data Engineer",1,1,1,3,2,167191
+"Data Engineer",1,1,1,3,2,133915
+"Data Analyst",1,1,1,3,2,110904
+"Data Engineer",1,1,3,3,2,51561
+"Data Analyst",1,1,1,3,2,162322
+"Data Analyst",1,1,1,3,2,76387
+"Data Scientist",1,1,1,3,2,133677
+"Data Scientist",1,1,1,3,2,200515
+"Data Scientist",1,1,1,3,2,133677
+"Data Analyst",1,1,1,3,2,95483
+"Data Analyst",1,1,1,3,2,65884
+"Data Scientist",1,1,1,3,2,200515
+"Data Scientist",1,1,1,3,2,133677
+"Data Scientist",1,1,1,3,2,200515
+"Data Analyst",1,1,1,3,2,143297
+"Data Engineer",1,1,1,3,2,95483
+"Data Engineer",1,1,1,3,2,23871
+"Data Analyst",1,1,1,3,2,120787
+"Data Analyst",1,1,1,3,2,101461
+"Data Engineer",1,1,1,3,2,210169
+"Data Engineer",1,1,1,3,2,152850
+"Data Analyst",1,1,1,3,2,100258
+"Data Analyst",1,1,1,3,2,105915
+"Data Scientist",1,1,1,3,2,133677
+"Data Analyst",1,1,3,3,2,94529
+"Data Analyst",1,1,1,3,2,57290
+"Data Architect",1,1,1,3,2,183867
+"Data Architect",1,1,1,3,2,138312
+"Data Scientist",1,1,1,3,2,219612
+"Data Scientist",1,1,1,3,2,143225
+"Data Analytics Manager",1,1,1,3,2,143473
+"Data Analytics Manager",1,1,1,3,2,104344
+"Data Scientist",1,1,1,3,2,200515
+"Data Analyst",1,1,1,3,2,162322
+"Data Scientist",1,1,1,2,2,152773
+"Data Scientist",1,1,1,2,2,124128
+"Data Analyst",1,0,3,1,2,63974
+"Data Analyst",1,0,3,1,2,49651
+"Data Engineer",1,1,1,3,2,147044
+"Data Engineer",1,1,1,3,2,120309
+"Data Analyst",1,1,3,3,2,123174
+"Data Analyst",1,1,1,3,2,143225
